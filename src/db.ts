@@ -1,4 +1,7 @@
 import { createClient } from 'redis'
+import { promisify } from 'util'
+
+
 const client = createClient({
     port: +process.env.R_PORT! || 6379,
     host: process.env.R_HOST || "localhost",
@@ -19,5 +22,7 @@ client.on('error', (err) => {
 client.on('end', () => {
     console.log('Client disconnected from redis')
 })
+export const asyncGet = promisify(client.get).bind(client)
+export const asyncSetex = promisify(client.setex).bind(client)
 
 export default client

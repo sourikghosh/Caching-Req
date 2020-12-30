@@ -1,8 +1,9 @@
 import express, { Request, Response, NextFunction } from "express"
 import createError, { HttpError } from 'http-errors'
+import routes from "./routes"
 
 const app = express()
-
+app.use(routes)
 app.use(async (req: Request, res: Response, next: NextFunction) => {
     next(new createError.NotFound())
 })

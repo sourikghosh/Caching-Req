@@ -1,11 +1,15 @@
 import express, { Request, Response, NextFunction } from "express"
-import createError, { HttpError } from 'http-errors'
 import routes from "./routes"
-
+interface HttpError extends Error {
+    status?: number;
+    statusCode?: number;
+}
 const app = express()
 app.use(routes)
 app.use(async (req: Request, res: Response, next: NextFunction) => {
-    next(new createError.NotFound())
+    const error: HttpError = new Error("Not found")
+    error.status = 404
+    next(error)
 })
 
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {

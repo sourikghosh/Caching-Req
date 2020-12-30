@@ -1,7 +1,8 @@
 import { createClient } from 'redis'
-export const client = createClient({
+const client = createClient({
     port: +process.env.R_PORT! || 6379,
-    host: process.env.R_HOST || "localhost"
+    host: process.env.R_HOST || "localhost",
+    password: process.env.R_PASSWORD
 })
 client.on('connect', () => {
     console.log('Client connected to redis...')
@@ -18,3 +19,5 @@ client.on('error', (err) => {
 client.on('end', () => {
     console.log('Client disconnected from redis')
 })
+
+export default client

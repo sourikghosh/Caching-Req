@@ -11,12 +11,15 @@ routes.get('/', async (req: Request, res: Response, next: NextFunction) => {
         const result = await asyncGet('user')
         if (result) {
             console.log('using cached data')
-            res.send(JSON.parse(result))
+            res.send({
+                cacheResult: 'using cached data 😎',
+                data: JSON.parse(result)
+            })
             return
         }
         const respone = await axios.get('https://jsonplaceholder.typicode.com/users')
-        //for testing purpose only 5s
-        const saveResult = await asyncSetex('user', 5, JSON.stringify(respone.data))
+        //for testing purpose only 12s
+        const saveResult = await asyncSetex('user', 12, JSON.stringify(respone.data))
         console.log('new data cached', saveResult)
         res.send(respone.data)
     } catch (err) {
@@ -28,12 +31,15 @@ routes.get('/', async (req: Request, res: Response, next: NextFunction) => {
         const result = await asyncGet(user_id)
         if (result) {
             console.log('using cached data')
-            res.send(JSON.parse(result))
+            res.send({
+                cacheResult: 'using cached data 😎',
+                data: JSON.parse(result)
+            })
             return
         }
         const respone = await axios.get(`https://jsonplaceholder.typicode.com/users/${user_id}`)
-        //for testing purpose only 5s
-        const cacheResult = await asyncSetex(user_id, 5, JSON.stringify(respone.data))
+        //for testing purpose only 12s
+        const cacheResult = await asyncSetex(user_id, 12, JSON.stringify(respone.data))
         console.log('new data cached', cacheResult)
         res.send(respone.data)
     } catch (err) {

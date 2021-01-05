@@ -9,7 +9,7 @@ app.use(routes)
 app.use(async (req: Request, res: Response, next: NextFunction) => {
     const error: HttpError = new Error("Not found")
     error.status = 404
-    next(error)
+    next( error )
 })
 
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {

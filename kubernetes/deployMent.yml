@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caching
+  labels:
+    app: cachingapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cachingapp
+  template:
+    metadata:
+      labels:
+        app: cachingapp
+    spec:
+      containers:
+        - name: cachingapp
+          image: sourikg/caching:v1
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: caching-config
+                  key: port
+            - name: R_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: caching-secret
+                  key: redis_port
+            - name: R_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: caching-secret
+                  key: redis_password
+            - name: R_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: caching-secret
+                  key: redis_host

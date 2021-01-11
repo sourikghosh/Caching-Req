@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from "express"
+import client from './db'
 import routes from "./routes"
 interface HttpError extends Error {
     status?: number;

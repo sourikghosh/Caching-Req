@@ -24,4 +24,15 @@ app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
 
 const PORT = process.env.PORT || 4000
 
-app.listen(PORT, () => { console.log(`🔥 on ${PORT}`) })
+const server = app.listen(PORT, () => { console.log(`🔥 on ${PORT}`) })
+const gracefulShutdown = () => {
+    console.info('SIGTERM signal received.');
+    console.log('Closing http server.');
+    server.close(() => {
+        console.log('Http server closed.');
+        client.quit();
+        process.exit(0);
+    })
+}
+process.on('SIGTERM', gracefulShutdown)
+process.on('SIGINT', gracefulShutdown)

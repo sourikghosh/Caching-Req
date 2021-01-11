@@ -27,10 +27,10 @@ const PORT = process.env.PORT || 4000
 
 const server = app.listen(PORT, () => { console.log(`🔥 on ${PORT}`) })
 const gracefulShutdown = () => {
-    console.info('SIGTERM signal received.');
-    console.log('Closing http server.');
+    console.info('SIGTERM signal received');
+    console.log('Closing http server');
     server.close(() => {
-        console.log('Http server closed.');
+        console.log('Http server closed');
         client.quit();
         process.exit(0);
     })
